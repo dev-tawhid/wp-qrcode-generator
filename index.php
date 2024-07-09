@@ -32,4 +32,16 @@ add_action( 'plugins_loaded', 'wqrg_load_textdomain' );
 
 
 
+function display_qr($content){
+    $current_post_id = get_the_ID();
+    $current_post_title = get_the_title($current_post_id);
+    $current_post_url = urlencode(get_the_permalink($current_post_id));
+    $qr_img_src = sprintf("https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=%s", $current_post_url ) ;
+    $content .= sprintf('<div class="qr-code-container"><img src="%s" ald="%s"></div>', $qr_img_src, $current_post_title );
+    return $content;
+}
+
+
+add_filter( 'the_content', 'display_qr' );
+
 ?>
